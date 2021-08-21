@@ -151,8 +151,8 @@
                                             {{'CreationTime' | localize}}
                                             <p-sortIcon field="creationTime"></p-sortIcon>
                                         </th>
-                                        <th style="width: 200px" pSortableColumn="creationTime">
-                                            "Action"
+                                        <th style="width: 200px" pSortableColumn="actionColum" (click)="onSelectedUserSaveClick()">
+                                            Save Change
                                         </th>
                                     </tr>
                                 </ng-template>
@@ -235,6 +235,9 @@
                                         <td style="width: 200px">
                                             <span class="p-column-title"> {{'CreationTime' | localize}}</span>
                                             {{record.creationTime | luxonFormat:'F'}}
+                                        </td>
+                                        <td style="width: 200px">
+                                           <input type="checkbox" (change)="onCheckChanges(record.id);">
                                         </td>
                                     </tr>
                                 </ng-template>

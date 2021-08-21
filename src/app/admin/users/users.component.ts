@@ -41,7 +41,7 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
     @ViewChild('dynamicEntityPropertyManager', { static: true }) dynamicEntityPropertyManager: DynamicEntityPropertyManagerComponent;
 
     uploadUrl: string;
-
+    userCollection: Array<any> = [];
     //Filters
     advancedFiltersAreShown = false;
     filterText = '';
@@ -189,5 +189,14 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
             });
         }
     }
-
+    onCheckChanges(rowId: number) : void {
+            if(this.userCollection.indexOf(rowId) == -1){
+                this.userCollection.push(rowId);
+            }else{
+                this.userCollection.splice(this.userCollection.indexOf(rowId),1);                
+            }
+    }
+    onSelectedUserSaveClick (): void{
+        alert(JSON.stringify(this.userCollection,null,3));        
+    }
 }
