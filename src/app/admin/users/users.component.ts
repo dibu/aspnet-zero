@@ -41,13 +41,14 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
     @ViewChild('dynamicEntityPropertyManager', { static: true }) dynamicEntityPropertyManager: DynamicEntityPropertyManagerComponent;
 
     uploadUrl: string;
-    userCollection: Array<any> = [];
+    userCollection: Array<UserDashBoardDto> = [];
+    alreadySavedUsers : Array<number>=[2];
     //Filters
     advancedFiltersAreShown = false;
     filterText = '';
     role = '';
     onlyLockedUsers = false;
-
+    
     constructor(
         injector: Injector,
         public _impersonationService: ImpersonationService,
@@ -190,13 +191,41 @@ export class UsersComponent extends AppComponentBase implements AfterViewInit {
         }
     }
     onCheckChanges(rowId: number) : void {
-            if(this.userCollection.indexOf(rowId) == -1){
-                this.userCollection.push(rowId);
+            let userdashboard : UserDashBoardDto = new UserDashBoardDto();
+
+            userdashboard.userId=1;
+            userdashboard.dashboardId=rowId;
+            userdashboard.isChecked=true;
+
+            if(this.userCollection.length==0){
+                this.userCollection.push(userdashboard);
             }else{
-                this.userCollection.splice(this.userCollection.indexOf(rowId),1);                
+                let isExist=false;
+                for(var i=0; i< this.userCollection.length; i++){
+                    if(this.userCollection[i].dashboardId == rowId){
+                        isExist=true;
+                        this.userCollection.splice(i,1);
+                        break;
+                    }
+                }
+                if(!isExist){
+                    this.userCollection.push(userdashboard);
+                }
             }
+            // if(this.userCollection.indexOf(userdashboard.dashboardId) == -1){
+            //     this.userCollection.push(rowId);
+            // }else{
+            //     this.userCollection.splice(this.userCollection.indexOf(rowId),1);                
+            // }
     }
     onSelectedUserSaveClick (): void{
         alert(JSON.stringify(this.userCollection,null,3));        
     }
+    
+}
+
+export class UserDashBoardDto {
+    userId : number;
+    dashboardId:number;
+    isChecked: boolean;
 }
